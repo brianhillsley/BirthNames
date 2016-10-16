@@ -22,6 +22,15 @@ public class NameSex {
 	}
 	public String toString(){
 		return name+sex;
-		
+	}
+	
+	public boolean equals(NameSex ns){
+		if (ns.sex == this.sex && (ns.name).equals(this.name)) return true;
+		return false;
+	}
+	
+	public int hashCode(){
+		String s = name+sex;
+		return s.hashCode();
 	}
 }

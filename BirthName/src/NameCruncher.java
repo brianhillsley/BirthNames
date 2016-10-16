@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Scanner;
 
@@ -13,12 +14,13 @@ import com.sun.javafx.runtime.SystemProperties;
  * 
  */
 public class NameCruncher {
-	public static Hashtable<Integer, NameEntry> namesTable; // Integer will be the hash code of the NameSex object
+	static int contained = 0;
+	public static HashMap<Integer, NameEntry> namesTable; // Integer will be the hash code of the NameSex object
 	public static String filenamePrefix = "bin/names/yob";
 	static String fileExt = ".txt";
 	
 	public NameCruncher(){
-		namesTable = new Hashtable<Integer, NameEntry>();
+		namesTable = new HashMap<Integer, NameEntry>();
 	}
 	public static void main(String[] args) {
 		
@@ -26,24 +28,48 @@ public class NameCruncher {
 		int endYear = 2015;
 		NameCruncher n = new NameCruncher();
 		try {
-			processNames(startYear, endYear);
+			n.processNames(startYear, endYear);
 		} catch (Exception e){
 			System.out.println("Exception caught");
 			e.printStackTrace();
 		}
+		System.out.println("contained: " + contained);
 		
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter a name:");
 		String inName = input.nextLine();
 		System.out.println("Enter a year:");
 		int inYear = Integer.parseInt(input.nextLine());
-		printCountForBothSexes(inName, inYear);
+		n.printCountForEachSex(inName, inYear);
+		System.out.println("------------------------");
+		n.printAllCountsSinceForEachSex(inName, inYear);
+		
 	}
 
-	public static void printCountForBothSexes(String name, int year){
+	public void printAllCountsSinceForEachSex(String name, int year){
+		for (int startYear=year; year<=2015;year++){
 		NameSex nsBoy = new NameSex(name, NameSex.Sex.MALE);
 		NameSex nsGirl = new NameSex(name, NameSex.Sex.FEMALE);
 		int boyCount = 0, girlCount = 0;
+		
+		if(namesTable.containsKey(getKey(nsBoy))){
+			System.out.println("key found for boy");
+			boyCount = namesTable.get(getKey(nsBoy)).getCount(year);
+		}
+		if(namesTable.containsKey(getKey(nsGirl))){
+			System.out.println("key found for girl");
+			girlCount = namesTable.get(getKey(nsGirl)).getCount(year);
+		}
+		
+		System.out.println("# of boys named "+name+" in U.S. in year "+ year +": " + boyCount);
+		System.out.println("# of girls named "+name+" in U.S. in year "+ year +": " + girlCount);
+		}
+	}
+	public void printCountForEachSex(String name, int year){
+		NameSex nsBoy = new NameSex(name, NameSex.Sex.MALE);
+		NameSex nsGirl = new NameSex(name, NameSex.Sex.FEMALE);
+		int boyCount = 0, girlCount = 0;
+		
 		if(namesTable.containsKey(getKey(nsBoy))){
 			System.out.println("key found for boy");
 			boyCount = namesTable.get(getKey(nsBoy)).getCount(year);
@@ -56,7 +82,8 @@ public class NameCruncher {
 		System.out.println("# of boys named "+name+" in U.S. in year "+ year +": " + boyCount);
 		System.out.println("# of girls named "+name+" in U.S. in year "+ year +": " + girlCount);
 	}
-	public static void processNames(int startYear, int endYear) throws IOException{
+	
+	public void processNames(int startYear, int endYear) throws IOException{
 		for (int yr = startYear; yr <= endYear; yr++) {
 			File f = new File(filenamePrefix + yr + fileExt);
 			Scanner s = new Scanner(f);
@@ -77,8 +104,10 @@ public class NameCruncher {
 				// If the names table has already seen this name, sex combination, then it will add info
 				// If has not been seen, then create a new name Entry and add it to the names hashtable
 				if(namesTable.containsKey(getKey(nameSex))){
+					contained++;
 					namesTable.get(getKey(nameSex)).addYearsInfo(yr, count);
 				} else {
+					
 					NameEntry nameEntry = new NameEntry(name, sex, yr, count);
 					namesTable.put(getKey(nameSex), nameEntry);
 				}
@@ -86,8 +115,7 @@ public class NameCruncher {
 		}
 	}
 	
-	// TODO: Make this functionality instance based (not static)
-	public static int getKey(NameSex ns){
+	public Integer getKey(NameSex ns){
 		return ns.hashCode();
 	}
 	
