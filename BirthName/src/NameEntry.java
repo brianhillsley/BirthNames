@@ -18,7 +18,7 @@ public class NameEntry {
 
 	public NameEntry(String name, NameSex.Sex sex, int year, int count){ // this name didn't exist on hashtable, so it was created
 		this.nameSex = new NameSex(name, sex);
-		counts = new int[NUM_YEARS_INCLUDED+1];
+		counts = new int[NUM_YEARS_INCLUDED];
 		counts[year-START_YEAR] = count;
 	}
 	
@@ -29,7 +29,16 @@ public class NameEntry {
 	 * @param count
 	 */
 	public void addYearsInfo(int year, int count){
+		
 		counts[(year-START_YEAR)] = count;
+		
+		System.out.println("----");
+		System.out.println(nameSex);
+		int startYear = 1880;
+		int endYear = 2015;
+//		for(int i = 0; i <= (endYear-startYear)+1; i++)
+//			System.out.println(i+" : "+counts[i]);
+//		System.out.println("----");
 	}
 	public int getCount(int year){
 		return counts[year-START_YEAR];
