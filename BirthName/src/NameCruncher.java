@@ -14,38 +14,23 @@ import com.sun.javafx.runtime.SystemProperties;
  * 
  */
 public class NameCruncher {
-	static int contained = 0;
+	public static int contained = 0;
 	public static HashMap<Integer, NameEntry> namesTable; // Integer will be the hash code of the NameSex object
 	public static String filenamePrefix = "bin/names/yob";
 	static String fileExt = ".txt";
-	
+	/**
+	 * Constructs a NameCruncher instance.
+	 * Next step would be to call processNames.
+	 */
 	public NameCruncher(){
 		namesTable = new HashMap<Integer, NameEntry>();
 	}
-	public static void main(String[] args) {
-		
-		int startYear = 1880;
-		int endYear = 2015;
-		NameCruncher n = new NameCruncher();
-		try {
-			n.processNames(startYear, endYear);
-		} catch (Exception e){
-			System.out.println("Exception caught");
-			e.printStackTrace();
-		}
-		System.out.println("contained: " + contained);
-		
-		Scanner input = new Scanner(System.in);
-		System.out.println("Enter a name:");
-		String inName = input.nextLine();
-		System.out.println("Enter a year:");
-		int inYear = Integer.parseInt(input.nextLine());
-		n.printCountForEachSex(inName, inYear);
-		System.out.println("------------------------");
-		n.printAllCountsSinceForEachSex(inName, inYear);
-		
-	}
 
+	/**
+	 * 
+	 * @param name
+	 * @param year
+	 */
 	public void printAllCountsSinceForEachSex(String name, int year){
 		for (int startYear=year; year<=2015;year++){
 		NameSex nsBoy = new NameSex(name, NameSex.Sex.MALE);
@@ -53,11 +38,11 @@ public class NameCruncher {
 		int boyCount = 0, girlCount = 0;
 		
 		if(namesTable.containsKey(getKey(nsBoy))){
-			System.out.println("key found for boy");
+			//System.out.println("key found for boy");
 			boyCount = namesTable.get(getKey(nsBoy)).getCount(year);
 		}
 		if(namesTable.containsKey(getKey(nsGirl))){
-			System.out.println("key found for girl");
+			//System.out.println("key found for girl");
 			girlCount = namesTable.get(getKey(nsGirl)).getCount(year);
 		}
 		
@@ -65,6 +50,7 @@ public class NameCruncher {
 		System.out.println("# of girls named "+name+" in U.S. in year "+ year +": " + girlCount);
 		}
 	}
+	
 	public void printCountForEachSex(String name, int year){
 		NameSex nsBoy = new NameSex(name, NameSex.Sex.MALE);
 		NameSex nsGirl = new NameSex(name, NameSex.Sex.FEMALE);
