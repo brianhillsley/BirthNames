@@ -23,23 +23,15 @@ public class NameEntry {
 	}
 	
 	/**
-	 * Adds a specific entry (year, count) to the internal array of counts.
+	 * Adds a specific entry (year, count) to the internal array of counts for this specific NameEntry.
 	 * Years should be between 1880 and 2015 (so no 2016 yet).
-	 * @param year
-	 * @param count
+	 * @param year the year for which the count corresponds
+	 * @param count the number of babies with that name from the specific year
 	 */
 	public void addYearsInfo(int year, int count){
-		
 		counts[(year-START_YEAR)] = count;
-		
-		System.out.println("----");
-		System.out.println(nameSex);
-		int startYear = 1880;
-		int endYear = 2015;
-//		for(int i = 0; i <= (endYear-startYear)+1; i++)
-//			System.out.println(i+" : "+counts[i]);
-//		System.out.println("----");
 	}
+	
 	public int getCount(int year){
 		return counts[year-START_YEAR];
 	}
