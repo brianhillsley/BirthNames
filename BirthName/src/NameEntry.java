@@ -14,12 +14,16 @@ public class NameEntry {
 	
 	
 	// counts holds all of the years of recorded data starting from 1880. so index 0 is 1880, index 1 is 1881, ...
-	private int[] counts;
+	private DataPoint[] counts;
 
 	public NameEntry(String name, NameSex.Sex sex, int year, int count){ // this name didn't exist on hashtable, so it was created
 		this.nameSex = new NameSex(name, sex);
-		counts = new int[NUM_YEARS_INCLUDED];
-		counts[year-START_YEAR] = count;
+		counts = new DataPoint[NUM_YEARS_INCLUDED];
+		for(int i=0; i<counts.length; i++){
+			counts[i] = new DataPoint(0,0);
+		}
+		
+		counts[year-START_YEAR] = new DataPoint(year, count);
 	}
 	
 	/**
@@ -29,11 +33,26 @@ public class NameEntry {
 	 * @param count the number of babies with that name from the specific year
 	 */
 	public void addYearsInfo(int year, int count){
-		counts[(year-START_YEAR)] = count;
+		counts[(year-START_YEAR)] = new DataPoint(year, count);
+	}
+	
+	/**
+	 * Returns a copy of all the counts for each year
+	 * @return
+	 */
+	public DataPoint[] getCounts(){
+		return counts.clone();
+	}
+		public String getName(){
+		return this.nameSex.name;
+	}
+	
+	public NameSex.Sex getSex(){
+		return this.nameSex.sex;
 	}
 	
 	public int getCount(int year){
-		return counts[year-START_YEAR];
+		return counts[year-START_YEAR].count;
 	}
 	
 }
