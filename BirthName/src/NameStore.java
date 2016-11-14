@@ -39,7 +39,8 @@ public class NameStore {
 		try {
 			processNames(EARLIEST_YEAR, LATEST_YEAR);
 		} catch (Exception e){
-			
+			System.out.println("Error while attempting to process names.");
+			e.printStackTrace();
 		}
 	}
 	
@@ -77,18 +78,13 @@ public class NameStore {
 	}
 	
 	/**
-	 * 
-	 * @param ns - the NameSex object that describes the baby's name and sex
-	 * @param year - the year for which to fetch the count
-	 * @return number of babies of that name-sex in the year specified.
-	 * 	Returns 0 in two cases: #1 the key is not found and #2 the actual count is 0
+	 * Get an array of data points for a specific name-sex
+	 * @param name - the name of baby
+	 * @param sex - the sex of baby
+	 * @return an array of data points
 	 */
-	private int getNameSexCount(NameSex ns, int year){
-		if(namesTable.containsKey(getKey(ns))){
-			return namesTable.get(getKey(ns)).getCount(year);
-		} else {
-			return 0;
-		}
+	public DataPoint[] getCountsFor(String name, NameSex.Sex sex){
+		return nameEntry(new NameSex(name, sex)).getCounts();
 	}
 	
 	public void printCountForEachSex(String name, int year){
@@ -134,7 +130,7 @@ public class NameStore {
 				// If has not been seen, then create a new name Entry and add it to the names hashtable
 				if(namesTable.containsKey(getKey(nameSex))){
 					numNameSexes++;
-					namesTable.get(getKey(nameSex)).addYearsInfo(yr, count);
+					nameEntry(nameSex).addYearsInfo(yr, count);
 				} else {
 					
 					NameEntry nameEntry = new NameEntry(name, sex, yr, count);
@@ -144,15 +140,56 @@ public class NameStore {
 		}
 	}
 	
-	public Integer getKey(NameSex ns){
+	/**
+	 * Get key for hashtable
+	 * @param ns - the name-sex object
+	 * @return - an integer key
+	 */
+	private Integer getKey(NameSex ns){
 		return ns.hashCode();
 	}
 	
-	public static void p(){
+	/**
+	 * 
+	 * @param ns - the NameSex object that describes the baby's name and sex
+	 * @param year - the year for which to fetch the count
+	 * @return number of babies of that name-sex in the year specified.
+	 * 	Returns 0 in two cases: #1 the key is not found and #2 the actual count is 0
+	 */
+	private int getNameSexCount(NameSex ns, int year){
+		if(namesTable.containsKey(getKey(ns))){
+			return namesTable.get(getKey(ns)).getCount(year);
+		} else {
+			return 0;
+		}
+	}
+	
+	/**
+	 * TODO: Should protect the Object before returning it
+	 * Quick access to a name entry by name-sex
+	 * @param nameSex
+	 * @return
+	 */
+	public NameEntry nameEntry(String name, NameSex.Sex sex){
+		return nameEntry(new NameSex(name, sex));
+	}
+	
+	private NameEntry nameEntry(NameSex ns){
+		return namesTable.get(getKey(ns));
+	}
+	
+	/**
+	 * Debugging method for pausing execution
+	 */
+	private static void p(){
 		Scanner s = new Scanner(System.in);
 		s.next();
 	}
-	public static void h(){
+	
+	/**
+	 * Used for lazy-style debugging
+	 */
+	private static void h(){
 		System.out.println("here");
 	}
 }

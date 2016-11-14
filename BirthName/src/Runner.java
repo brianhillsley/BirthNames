@@ -8,13 +8,7 @@ public class Runner {
 		
 		int startYear = 1880;
 		int endYear = 2015;
-		NameCruncher n = new NameCruncher();
-		try {
-			n.processNames(startYear, endYear);
-		} catch (Exception e){
-			System.out.println("Exception caught");
-			e.printStackTrace();
-		}
+		NameStore n = new NameStore();
 		System.out.println("contained: " + n.numNameSexes);
 		
 		Scanner input = new Scanner(System.in);
@@ -26,5 +20,8 @@ public class Runner {
 		n.printNameCount(inName, inYear);
 		System.out.println("------------------------");
 		n.printAllCountsSinceForEachSex(inName, inYear);
+		
+		Exporter.exportCSV(inName+"_out", n.nameEntry(inName, NameSex.Sex.MALE));
+		Exporter.exportCSV(inName+"_out", n.nameEntry(inName, NameSex.Sex.FEMALE));
 	}
 }
