@@ -24,5 +24,23 @@ public class Runner {
 		
 		Exporter.exportCSV(inName+"_out", n.nameEntry(inName, NameSex.Sex.MALE));
 		Exporter.exportCSV(inName+"_out", n.nameEntry(inName, NameSex.Sex.FEMALE));
+		
+		// Check the local maxima method
+		System.out.println("Local Maxima Years");
+		ArrayList<Integer> locMax = n.nameEntry(inName, NameSex.Sex.MALE).localMaxima();
+		for(Integer i: locMax){
+			System.out.println(n.EARLIEST_YEAR+i);
+		}
+		// Check the absolute max method
+		System.out.println("Absolute Max: " + (n.nameEntry(inName, NameSex.Sex.MALE).absoluteMaxIndex()));
+		
+		// Check the local minima method
+		System.out.println("Local Minima Years");
+		ArrayList<Integer> locMin = n.nameEntry(inName, NameSex.Sex.MALE).localMinima();
+		for(Integer i: locMin){
+			System.out.println(n.EARLIEST_YEAR+i);
+		}
+		
+	
 	}
 }
