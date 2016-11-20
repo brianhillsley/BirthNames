@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * This class will be used to provide easy methods to print out information from the NameStore for viewing in other applications
  * 
- * @author bhills
+ * @author Brian Hillsley
  *
  */
 public class Exporter {

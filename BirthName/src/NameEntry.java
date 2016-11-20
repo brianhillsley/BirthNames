@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 /**
  * 
- * @author bhills
+ * @author Brian Hillsley
  *
  */
 public class NameEntry {
@@ -38,7 +38,7 @@ public class NameEntry {
 	
 	/**
 	 * Returns a copy of all the counts for each year
-	 * @return
+	 * @return a copy of the counts for each year in an array starting at year 1880 (index 0 is 1880)
 	 */
 	public DataPoint[] getCounts(){
 		return counts.clone();

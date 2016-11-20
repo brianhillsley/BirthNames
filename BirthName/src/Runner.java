@@ -16,6 +16,7 @@ public class Runner {
 		String inName = input.nextLine();
 		System.out.println("Enter a starting year (>1879):");
 		int inYear = Integer.parseInt(input.nextLine());
+		input.close();
 		n.printCountForEachSex(inName, inYear);
 		n.printNameCount(inName, inYear);
 		System.out.println("------------------------");
