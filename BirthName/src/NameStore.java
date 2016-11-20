@@ -10,7 +10,7 @@ import com.sun.javafx.runtime.SystemProperties;
  * NameStore is responsible for reading the names in and placing them in to
  * the hash table, then providing easy access to elementary operations that can be performed on the dataset.
  * 
- * <Name, Sex> is a tuple that describes a baby of sex, Sex, and with name, Name. See NameSex class.
+ * (Name, Sex) is a tuple that describes a baby of sex, Sex, and with name, Name. See NameSex class.
  * 
  * @author Brian Hillsley
  * 
@@ -46,8 +46,8 @@ public class NameStore {
 	
 	/**
 	 * Prints the number of babies named parameter name during the specific year in the United States.
-	 * @param name - the name to look up
-	 * @param year - the year of which to look up
+	 * @param name the name to look up
+	 * @param year the year of which to look up
 	 */
 	public void printAllCountsSinceForEachSex(String name, int year){
 		for (int startYear=year; year<=2015;year++){
@@ -79,8 +79,8 @@ public class NameStore {
 	
 	/**
 	 * Get an array of data points for a specific name-sex
-	 * @param name - the name of baby
-	 * @param sex - the sex of baby
+	 * @param name the name of baby
+	 * @param sex the sex of baby
 	 * @return an array of data points
 	 */
 	public DataPoint[] getCountsFor(String name, NameSex.Sex sex){
@@ -102,8 +102,8 @@ public class NameStore {
 	 * 
 	 * This function is responsible for reading in all the names for a range of years.
 	 * The range is INCLUSIVE.
-	 * @param startYear - the year the count starts from (startYear > 1879)
-	 * @param endYear - the year the count ends at (endYear < 2016)
+	 * @param startYear - the year the count starts from (startYear greater than 1879)
+	 * @param endYear - the year the count ends at (endYear less than 2016)
 	 * @throws IOException
 	 */
 	public void processNames(int startYear, int endYear) throws IOException{
@@ -167,8 +167,9 @@ public class NameStore {
 	/**
 	 * TODO: Should protect the Object before returning it
 	 * Quick access to a name entry by name-sex
-	 * @param nameSex
-	 * @return
+	 * @param name the name the name entry has
+	 * @param sex the sex of the name entry
+	 * @return a name entry object
 	 */
 	public NameEntry nameEntry(String name, NameSex.Sex sex){
 		return nameEntry(new NameSex(name, sex));
