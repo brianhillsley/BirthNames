@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -49,6 +50,60 @@ public class NameEntry {
 	
 	public NameSex.Sex getSex(){
 		return this.nameSex.sex;
+	}
+	
+	/**
+	 * Gets the indexes of all local maxima.
+	 * TODO: Does not include local maxima for endpoints currently. Add them.
+	 * 
+	 * @return the indices for all local maxima
+	 */
+	public ArrayList<Integer> localMaxima(){
+		int prev = counts[1].count;
+		int change = prev - counts[0].count;
+		boolean increasing = (change > 0);
+		ArrayList<Integer> locMaximaIndices = new ArrayList<Integer>();
+		
+		for(int i=2; i<NUM_YEARS_INCLUDED; i++){
+			change = counts[i].count - prev;
+			if(increasing && (change <= 0)){
+				locMaximaIndices.add(i-1); // Add the local maximum
+			}
+			increasing = (change > 0);
+			prev = counts[i].count;
+		}
+		return locMaximaIndices;
+	}
+	
+	/**
+	 * Returns the index for the absolute maximum count
+	 * @return
+	 */
+	public int absoluteMaxIndex(){
+		int maxIndex = 0;
+		for(int i=1; i<NUM_YEARS_INCLUDED; i++){
+			if(counts[i].count > counts[maxIndex].count){
+				maxIndex = i;
+			}
+		}
+		return maxIndex;
+	}
+	
+	public ArrayList<Integer> localMinima(){
+		int prev = counts[1].count;
+		int change = prev - counts[0].count;
+		boolean decreasing = (change < 0);
+		ArrayList<Integer> locMinimaIndices = new ArrayList<Integer>();
+		
+		for(int i=2; i<NUM_YEARS_INCLUDED; i++){
+			change = counts[i].count - prev;
+			if(decreasing && (change > 0)){
+				locMinimaIndices.add(i-1); // Add the local minimum
+			}
+			decreasing = (change < 0);
+			prev = counts[i].count;
+		}
+		return locMinimaIndices;
 	}
 	
 	public int getCount(int year){
